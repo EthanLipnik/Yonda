@@ -19,6 +19,18 @@
 		AA8EC7402671742B009D43AD /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8EC7182671742A009D43AD /* Persistence.swift */; };
 		AA8EC7412671742B009D43AD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AA8EC7192671742B009D43AD /* Assets.xcassets */; };
 		AA8EC7422671742B009D43AD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AA8EC7192671742B009D43AD /* Assets.xcassets */; };
+		AA8EC75A267179DD009D43AD /* Moji in Frameworks */ = {isa = PBXBuildFile; productRef = AA8EC759267179DD009D43AD /* Moji */; };
+		AA8EC75C267179E0009D43AD /* Moji in Frameworks */ = {isa = PBXBuildFile; productRef = AA8EC75B267179E0009D43AD /* Moji */; };
+		AA8EC76026717BD9009D43AD /* WebView in Frameworks */ = {isa = PBXBuildFile; productRef = AA8EC75F26717BD9009D43AD /* WebView */; };
+		AA8EC76226717BE2009D43AD /* WebView in Frameworks */ = {isa = PBXBuildFile; productRef = AA8EC76126717BE2009D43AD /* WebView */; };
+		AA8EC767267183F4009D43AD /* ItemDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8EC766267183F4009D43AD /* ItemDetailView.swift */; };
+		AA8EC768267183F4009D43AD /* ItemDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8EC766267183F4009D43AD /* ItemDetailView.swift */; };
+		AA8EC76A26718614009D43AD /* FeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8EC76926718614009D43AD /* FeedView.swift */; };
+		AA8EC76B26718614009D43AD /* FeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8EC76926718614009D43AD /* FeedView.swift */; };
+		AA8EC76E267187D8009D43AD /* Sebu in Frameworks */ = {isa = PBXBuildFile; productRef = AA8EC76D267187D8009D43AD /* Sebu */; };
+		AA8EC770267187DF009D43AD /* Sebu in Frameworks */ = {isa = PBXBuildFile; productRef = AA8EC76F267187DF009D43AD /* Sebu */; };
+		AA8EC77226719545009D43AD /* NewSourceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8EC77126719545009D43AD /* NewSourceView.swift */; };
+		AA8EC77326719545009D43AD /* NewSourceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8EC77126719545009D43AD /* NewSourceView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,6 +62,12 @@
 		AA8EC72D2671742B009D43AD /* Tests_iOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests_iOS.swift; sourceTree = "<group>"; };
 		AA8EC7332671742B009D43AD /* Tests macOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Tests macOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA8EC7372671742B009D43AD /* Tests_macOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests_macOS.swift; sourceTree = "<group>"; };
+		AA8EC7582671756E009D43AD /* Moji */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Moji; path = ../Moji; sourceTree = "<group>"; };
+		AA8EC75D26717A5F009D43AD /* Yonda.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Yonda.entitlements; sourceTree = "<group>"; };
+		AA8EC766267183F4009D43AD /* ItemDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemDetailView.swift; sourceTree = "<group>"; };
+		AA8EC76926718614009D43AD /* FeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedView.swift; sourceTree = "<group>"; };
+		AA8EC76C267187D1009D43AD /* Sebu */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Sebu; path = ../../../../../../Users/ethan/Desktop/Sebu; sourceTree = "<group>"; };
+		AA8EC77126719545009D43AD /* NewSourceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewSourceView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,6 +75,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AA8EC76026717BD9009D43AD /* WebView in Frameworks */,
+				AA8EC75A267179DD009D43AD /* Moji in Frameworks */,
+				AA8EC770267187DF009D43AD /* Sebu in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -64,6 +85,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AA8EC76226717BE2009D43AD /* WebView in Frameworks */,
+				AA8EC75C267179E0009D43AD /* Moji in Frameworks */,
+				AA8EC76E267187D8009D43AD /* Sebu in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -87,10 +111,13 @@
 		AA8EC70E2671742A009D43AD = {
 			isa = PBXGroup;
 			children = (
+				AA8EC75D26717A5F009D43AD /* Yonda.entitlements */,
+				AA8EC7572671756E009D43AD /* Packages */,
 				AA8EC7132671742A009D43AD /* Shared */,
 				AA8EC72C2671742B009D43AD /* Tests iOS */,
 				AA8EC7362671742B009D43AD /* Tests macOS */,
 				AA8EC71F2671742B009D43AD /* Products */,
+				AA8EC754267174A5009D43AD /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -99,6 +126,9 @@
 			children = (
 				AA8EC7162671742A009D43AD /* YondaApp.swift */,
 				AA8EC7172671742A009D43AD /* ContentView.swift */,
+				AA8EC76926718614009D43AD /* FeedView.swift */,
+				AA8EC766267183F4009D43AD /* ItemDetailView.swift */,
+				AA8EC77126719545009D43AD /* NewSourceView.swift */,
 				AA8EC7182671742A009D43AD /* Persistence.swift */,
 				AA8EC7192671742B009D43AD /* Assets.xcassets */,
 				AA8EC7142671742A009D43AD /* Yonda.xcdatamodeld */,
@@ -133,6 +163,22 @@
 			path = "Tests macOS";
 			sourceTree = "<group>";
 		};
+		AA8EC754267174A5009D43AD /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		AA8EC7572671756E009D43AD /* Packages */ = {
+			isa = PBXGroup;
+			children = (
+				AA8EC7582671756E009D43AD /* Moji */,
+				AA8EC76C267187D1009D43AD /* Sebu */,
+			);
+			name = Packages;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -149,6 +195,11 @@
 			dependencies = (
 			);
 			name = "Yonda (iOS)";
+			packageProductDependencies = (
+				AA8EC759267179DD009D43AD /* Moji */,
+				AA8EC75F26717BD9009D43AD /* WebView */,
+				AA8EC76F267187DF009D43AD /* Sebu */,
+			);
 			productName = "Yonda (iOS)";
 			productReference = AA8EC71E2671742B009D43AD /* Yonda.app */;
 			productType = "com.apple.product-type.application";
@@ -166,6 +217,11 @@
 			dependencies = (
 			);
 			name = "Yonda (macOS)";
+			packageProductDependencies = (
+				AA8EC75B267179E0009D43AD /* Moji */,
+				AA8EC76126717BE2009D43AD /* WebView */,
+				AA8EC76D267187D8009D43AD /* Sebu */,
+			);
 			productName = "Yonda (macOS)";
 			productReference = AA8EC7242671742B009D43AD /* Yonda.app */;
 			productType = "com.apple.product-type.application";
@@ -241,6 +297,9 @@
 				Base,
 			);
 			mainGroup = AA8EC70E2671742A009D43AD;
+			packageReferences = (
+				AA8EC75E26717BD9009D43AD /* XCRemoteSwiftPackageReference "SwiftUI-WebView" */,
+			);
 			productRefGroup = AA8EC71F2671742B009D43AD /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -291,8 +350,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AA8EC76A26718614009D43AD /* FeedView.swift in Sources */,
+				AA8EC767267183F4009D43AD /* ItemDetailView.swift in Sources */,
 				AA8EC7392671742B009D43AD /* Yonda.xcdatamodeld in Sources */,
 				AA8EC73F2671742B009D43AD /* Persistence.swift in Sources */,
+				AA8EC77226719545009D43AD /* NewSourceView.swift in Sources */,
 				AA8EC73B2671742B009D43AD /* YondaApp.swift in Sources */,
 				AA8EC73D2671742B009D43AD /* ContentView.swift in Sources */,
 			);
@@ -302,8 +364,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AA8EC76B26718614009D43AD /* FeedView.swift in Sources */,
+				AA8EC768267183F4009D43AD /* ItemDetailView.swift in Sources */,
 				AA8EC73A2671742B009D43AD /* Yonda.xcdatamodeld in Sources */,
 				AA8EC7402671742B009D43AD /* Persistence.swift in Sources */,
+				AA8EC77326719545009D43AD /* NewSourceView.swift in Sources */,
 				AA8EC73C2671742B009D43AD /* YondaApp.swift in Sources */,
 				AA8EC73E2671742B009D43AD /* ContentView.swift in Sources */,
 			);
@@ -467,7 +532,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -497,7 +562,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -518,6 +583,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Yonda.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
@@ -532,7 +598,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ethanlipnik.Yonda;
 				PRODUCT_NAME = Yonda;
@@ -547,6 +613,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Yonda.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
@@ -561,7 +628,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ethanlipnik.Yonda;
 				PRODUCT_NAME = Yonda;
@@ -721,6 +788,46 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		AA8EC75E26717BD9009D43AD /* XCRemoteSwiftPackageReference "SwiftUI-WebView" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kylehickinson/SwiftUI-WebView.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.3.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		AA8EC759267179DD009D43AD /* Moji */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Moji;
+		};
+		AA8EC75B267179E0009D43AD /* Moji */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Moji;
+		};
+		AA8EC75F26717BD9009D43AD /* WebView */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AA8EC75E26717BD9009D43AD /* XCRemoteSwiftPackageReference "SwiftUI-WebView" */;
+			productName = WebView;
+		};
+		AA8EC76126717BE2009D43AD /* WebView */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AA8EC75E26717BD9009D43AD /* XCRemoteSwiftPackageReference "SwiftUI-WebView" */;
+			productName = WebView;
+		};
+		AA8EC76D267187D8009D43AD /* Sebu */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Sebu;
+		};
+		AA8EC76F267187DF009D43AD /* Sebu */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Sebu;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		AA8EC7142671742A009D43AD /* Yonda.xcdatamodeld */ = {

@@ -15,6 +15,8 @@ struct YondaApp: App {
         WindowGroup {
             ContentView()
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
+        }.commands {
+            SidebarCommands()
         }
     }
 }
