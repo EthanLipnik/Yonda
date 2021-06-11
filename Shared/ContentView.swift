@@ -38,6 +38,8 @@ struct ContentView: View {
     @State var selectedIdentfiedItem: IdentifiableItem? = nil
     #endif
     
+    @Namespace var nspace
+    
     var body: some View {
         ZStack {
             NavigationView {
@@ -47,8 +49,7 @@ struct ContentView: View {
                             Section("Pinned") {
                                 ForEach(pinnedSources) { source in
                                     if let feed = feeds.first(where: { $0.title == source.title }) {
-                                        
-                                        FeedItem(feed: feed, source: source, updateSources: updateSources(withAnimation:), selectedItem: $selectedItem, selectedFeed: $selectedFeed)
+                                        FeedItem(feed: feed, source: source, updateSources: updateSources(withAnimation:), selectedItem: $selectedItem, selectedFeed: $selectedFeed, nspace: nspace)
                                             .environment(\.managedObjectContext, viewContext)
                                     }
                                 }
@@ -58,7 +59,7 @@ struct ContentView: View {
                             Section("Feeds") {
                                 ForEach(unpinnedSources) { source in
                                     if let feed = feeds.first(where: { $0.title == source.title }) {
-                                        FeedItem(feed: feed, source: source, updateSources: updateSources(withAnimation:), selectedItem: $selectedItem, selectedFeed: $selectedFeed)
+                                        FeedItem(feed: feed, source: source, updateSources: updateSources(withAnimation:), selectedItem: $selectedItem, selectedFeed: $selectedFeed, nspace: nspace)
                                             .environment(\.managedObjectContext, viewContext)
                                     }
                                 }
@@ -90,10 +91,10 @@ struct ContentView: View {
             
             #if !os(macOS)
             if let item = selectedItem {
-                ItemDetailView(item: item, selectedItem: $selectedItem)
+                ItemDetailView(item: item, selectedItem: $selectedItem, nspace: nspace)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .zIndex(0)
-                    .transition(.slide)
+                    .transition(.move(edge: .bottom))
             }
             #endif
         }
@@ -106,7 +107,7 @@ struct ContentView: View {
         }
 #if os(macOS)
         .sheet(item: $selectedIdentfiedItem) { item in
-            ItemDetailView(item: item.item, selectedItem: $selectedItem)
+            ItemDetailView(item: item.item, selectedItem: $selectedItem, nspace: nspace)
         }
         .onChange(of: selectedItem) { item in
             if let item = item {
@@ -127,6 +128,7 @@ struct ContentView: View {
                 withAnimation(animation ? .default : .none) {
                     if newFeeds.count >= pinnedSources.count + unpinnedSources.count {
                         self.feeds = newFeeds
+                        try? viewContext.save()
                     }
                 }
             }
@@ -149,7 +151,6 @@ struct ContentView: View {
                         
                         if source.title != rss.title {
                             source.title = rss.title
-                            try viewContext.save()
                         }
                     }
                 }
@@ -208,9 +209,10 @@ struct ContentView: View {
         
         @State var icon: URL? = nil
         @State var shouldDelete: Bool = false
+        var nspace: Namespace.ID
         
         var body: some View {
-            NavigationLink(destination: FeedView(feed: feed, selectedItem: $selectedItem), tag: feed, selection: $selectedFeed) {
+            NavigationLink(destination: FeedView(feed: feed, selectedItem: $selectedItem, nspace: nspace), tag: feed, selection: $selectedFeed) {
                 Label {
                     Text(feed.title ?? source.title ?? "Unknown title")
                 } icon: {

@@ -12,18 +12,14 @@ struct FeedView: View {
     let feed: Moji.RSS
     
     @Binding var selectedItem: Moji.Item?
+    var nspace: Namespace.ID
     
     var body: some View {
         ScrollView {
-            LazyVGrid(columns: [.init(.adaptive(minimum: 200, maximum: 300))]) {
+            LazyVGrid(columns: [.init(.adaptive(minimum: 300))], spacing: 0) {
                 ForEach(feed.items ?? [], id: \.title) { item in
-                    Button {
-                        selectedItem = item
-                    } label: {
-                        ItemView(item: item)
-                    }
-                    .buttonStyle(.plain)
-                    .id((item.title ?? "") + (item.description ?? "") + "\(item.hashValue)")
+                    ItemView(item: item, selectedItem: $selectedItem, nspace: nspace)
+                        .id((item.title ?? "") + (item.description ?? "") + "\(item.hashValue)")
                 }
             }.padding()
         }
@@ -37,21 +33,34 @@ struct FeedView: View {
     
     struct ItemView: View {
         let item: Moji.Item
+        @Binding var selectedItem: Moji.Item?
+        var nspace: Namespace.ID
         
         var body: some View {
-            VStack {
-                Text(item.title ?? "")
-                    .font(.title.bold())
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                Text(item.description ?? "")
-                    .foregroundColor(Color.secondary)
-                    .lineLimit(2)
+            Button {
+                withAnimation(.easeInOut) {
+                    selectedItem = item
+                }
+            } label: {
+                VStack {
+                    Text(item.title ?? "")
+                        .font(.title.bold())
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .matchedGeometryEffect(id: item.link!.absoluteString + "-title", in: nspace)
+                    Text(item.description ?? "")
+                        .foregroundColor(Color.secondary)
+                        .lineLimit(2)
+                        .matchedGeometryEffect(id: item.link!.absoluteString + "-description", in: nspace)
+                }
+                .padding()
+                .background(RoundedRectangle(cornerRadius: 30, style: .continuous)
+                                .fill(Color("Primary"))
+                                .shadow(radius: 20)
+                                .matchedGeometryEffect(id: item.link!.absoluteString + "-background", in: nspace)
+                )
+                .padding()
             }
-            .padding()
-            .background(RoundedRectangle(cornerRadius: 30, style: .continuous)
-                            .fill(Color.blue)
-                            .shadow(radius: 20))
-            .padding()
+            .buttonStyle(.plain)
         }
     }
 }

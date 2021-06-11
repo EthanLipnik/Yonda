@@ -23,14 +23,18 @@
 		AA8EC75C267179E0009D43AD /* Moji in Frameworks */ = {isa = PBXBuildFile; productRef = AA8EC75B267179E0009D43AD /* Moji */; };
 		AA8EC76026717BD9009D43AD /* WebView in Frameworks */ = {isa = PBXBuildFile; productRef = AA8EC75F26717BD9009D43AD /* WebView */; };
 		AA8EC76226717BE2009D43AD /* WebView in Frameworks */ = {isa = PBXBuildFile; productRef = AA8EC76126717BE2009D43AD /* WebView */; };
-		AA8EC767267183F4009D43AD /* ItemDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8EC766267183F4009D43AD /* ItemDetailView.swift */; };
-		AA8EC768267183F4009D43AD /* ItemDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8EC766267183F4009D43AD /* ItemDetailView.swift */; };
+		AA8EC767267183F4009D43AD /* ItemDetailViewOld.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8EC766267183F4009D43AD /* ItemDetailViewOld.swift */; };
+		AA8EC768267183F4009D43AD /* ItemDetailViewOld.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8EC766267183F4009D43AD /* ItemDetailViewOld.swift */; };
 		AA8EC76A26718614009D43AD /* FeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8EC76926718614009D43AD /* FeedView.swift */; };
 		AA8EC76B26718614009D43AD /* FeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8EC76926718614009D43AD /* FeedView.swift */; };
 		AA8EC76E267187D8009D43AD /* Sebu in Frameworks */ = {isa = PBXBuildFile; productRef = AA8EC76D267187D8009D43AD /* Sebu */; };
 		AA8EC770267187DF009D43AD /* Sebu in Frameworks */ = {isa = PBXBuildFile; productRef = AA8EC76F267187DF009D43AD /* Sebu */; };
 		AA8EC77226719545009D43AD /* NewSourceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8EC77126719545009D43AD /* NewSourceView.swift */; };
 		AA8EC77326719545009D43AD /* NewSourceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8EC77126719545009D43AD /* NewSourceView.swift */; };
+		AAB98EC926739B4B003F5DCF /* ItemDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB98EC826739B4B003F5DCF /* ItemDetailView.swift */; };
+		AAB98ECA26739B4B003F5DCF /* ItemDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB98EC826739B4B003F5DCF /* ItemDetailView.swift */; };
+		AAB98ECD26739DE7003F5DCF /* SwiftSoup in Frameworks */ = {isa = PBXBuildFile; productRef = AAB98ECC26739DE7003F5DCF /* SwiftSoup */; };
+		AAB98ECF26739DEE003F5DCF /* SwiftSoup in Frameworks */ = {isa = PBXBuildFile; productRef = AAB98ECE26739DEE003F5DCF /* SwiftSoup */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,11 +68,12 @@
 		AA8EC7372671742B009D43AD /* Tests_macOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests_macOS.swift; sourceTree = "<group>"; };
 		AA8EC7582671756E009D43AD /* Moji */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Moji; path = ../Moji; sourceTree = "<group>"; };
 		AA8EC75D26717A5F009D43AD /* Yonda.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Yonda.entitlements; sourceTree = "<group>"; };
-		AA8EC766267183F4009D43AD /* ItemDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemDetailView.swift; sourceTree = "<group>"; };
+		AA8EC766267183F4009D43AD /* ItemDetailViewOld.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemDetailViewOld.swift; sourceTree = "<group>"; };
 		AA8EC76926718614009D43AD /* FeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedView.swift; sourceTree = "<group>"; };
 		AA8EC76C267187D1009D43AD /* Sebu */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Sebu; path = ../../../../../../Users/ethan/Desktop/Sebu; sourceTree = "<group>"; };
 		AA8EC77126719545009D43AD /* NewSourceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewSourceView.swift; sourceTree = "<group>"; };
 		AAB98EC726730416003F5DCF /* Yonda--macOS--Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Yonda--macOS--Info.plist"; sourceTree = "<group>"; };
+		AAB98EC826739B4B003F5DCF /* ItemDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemDetailView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,6 +82,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AA8EC76026717BD9009D43AD /* WebView in Frameworks */,
+				AAB98ECD26739DE7003F5DCF /* SwiftSoup in Frameworks */,
 				AA8EC75A267179DD009D43AD /* Moji in Frameworks */,
 				AA8EC770267187DF009D43AD /* Sebu in Frameworks */,
 			);
@@ -87,6 +93,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AA8EC76226717BE2009D43AD /* WebView in Frameworks */,
+				AAB98ECF26739DEE003F5DCF /* SwiftSoup in Frameworks */,
 				AA8EC75C267179E0009D43AD /* Moji in Frameworks */,
 				AA8EC76E267187D8009D43AD /* Sebu in Frameworks */,
 			);
@@ -129,7 +136,8 @@
 				AA8EC7162671742A009D43AD /* YondaApp.swift */,
 				AA8EC7172671742A009D43AD /* ContentView.swift */,
 				AA8EC76926718614009D43AD /* FeedView.swift */,
-				AA8EC766267183F4009D43AD /* ItemDetailView.swift */,
+				AA8EC766267183F4009D43AD /* ItemDetailViewOld.swift */,
+				AAB98EC826739B4B003F5DCF /* ItemDetailView.swift */,
 				AA8EC77126719545009D43AD /* NewSourceView.swift */,
 				AA8EC7182671742A009D43AD /* Persistence.swift */,
 				AA8EC7192671742B009D43AD /* Assets.xcassets */,
@@ -201,6 +209,7 @@
 				AA8EC759267179DD009D43AD /* Moji */,
 				AA8EC75F26717BD9009D43AD /* WebView */,
 				AA8EC76F267187DF009D43AD /* Sebu */,
+				AAB98ECC26739DE7003F5DCF /* SwiftSoup */,
 			);
 			productName = "Yonda (iOS)";
 			productReference = AA8EC71E2671742B009D43AD /* Yonda.app */;
@@ -223,6 +232,7 @@
 				AA8EC75B267179E0009D43AD /* Moji */,
 				AA8EC76126717BE2009D43AD /* WebView */,
 				AA8EC76D267187D8009D43AD /* Sebu */,
+				AAB98ECE26739DEE003F5DCF /* SwiftSoup */,
 			);
 			productName = "Yonda (macOS)";
 			productReference = AA8EC7242671742B009D43AD /* Yonda.app */;
@@ -301,6 +311,7 @@
 			mainGroup = AA8EC70E2671742A009D43AD;
 			packageReferences = (
 				AA8EC75E26717BD9009D43AD /* XCRemoteSwiftPackageReference "SwiftUI-WebView" */,
+				AAB98ECB26739DE7003F5DCF /* XCRemoteSwiftPackageReference "SwiftSoup" */,
 			);
 			productRefGroup = AA8EC71F2671742B009D43AD /* Products */;
 			projectDirPath = "";
@@ -353,9 +364,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				AA8EC76A26718614009D43AD /* FeedView.swift in Sources */,
-				AA8EC767267183F4009D43AD /* ItemDetailView.swift in Sources */,
+				AA8EC767267183F4009D43AD /* ItemDetailViewOld.swift in Sources */,
 				AA8EC7392671742B009D43AD /* Yonda.xcdatamodeld in Sources */,
 				AA8EC73F2671742B009D43AD /* Persistence.swift in Sources */,
+				AAB98EC926739B4B003F5DCF /* ItemDetailView.swift in Sources */,
 				AA8EC77226719545009D43AD /* NewSourceView.swift in Sources */,
 				AA8EC73B2671742B009D43AD /* YondaApp.swift in Sources */,
 				AA8EC73D2671742B009D43AD /* ContentView.swift in Sources */,
@@ -367,9 +379,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				AA8EC76B26718614009D43AD /* FeedView.swift in Sources */,
-				AA8EC768267183F4009D43AD /* ItemDetailView.swift in Sources */,
+				AA8EC768267183F4009D43AD /* ItemDetailViewOld.swift in Sources */,
 				AA8EC73A2671742B009D43AD /* Yonda.xcdatamodeld in Sources */,
 				AA8EC7402671742B009D43AD /* Persistence.swift in Sources */,
+				AAB98ECA26739B4B003F5DCF /* ItemDetailView.swift in Sources */,
 				AA8EC77326719545009D43AD /* NewSourceView.swift in Sources */,
 				AA8EC73C2671742B009D43AD /* YondaApp.swift in Sources */,
 				AA8EC73E2671742B009D43AD /* ContentView.swift in Sources */,
@@ -808,6 +821,14 @@
 				minimumVersion = 0.3.0;
 			};
 		};
+		AAB98ECB26739DE7003F5DCF /* XCRemoteSwiftPackageReference "SwiftSoup" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/scinfu/SwiftSoup.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -836,6 +857,16 @@
 		AA8EC76F267187DF009D43AD /* Sebu */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Sebu;
+		};
+		AAB98ECC26739DE7003F5DCF /* SwiftSoup */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AAB98ECB26739DE7003F5DCF /* XCRemoteSwiftPackageReference "SwiftSoup" */;
+			productName = SwiftSoup;
+		};
+		AAB98ECE26739DEE003F5DCF /* SwiftSoup */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AAB98ECB26739DE7003F5DCF /* XCRemoteSwiftPackageReference "SwiftSoup" */;
+			productName = SwiftSoup;
 		};
 /* End XCSwiftPackageProductDependency section */
 

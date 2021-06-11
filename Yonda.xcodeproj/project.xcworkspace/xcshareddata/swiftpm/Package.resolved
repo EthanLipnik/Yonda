@@ -2,6 +2,15 @@
   "object": {
     "pins": [
       {
+        "package": "SwiftSoup",
+        "repositoryURL": "https://github.com/scinfu/SwiftSoup.git",
+        "state": {
+          "branch": null,
+          "revision": "774dc9c7213085db8aa59595e27c1cd22e428904",
+          "version": "2.3.2"
+        }
+      },
+      {
         "package": "SwiftUI-WebView",
         "repositoryURL": "https://github.com/kylehickinson/SwiftUI-WebView.git",
         "state": {
