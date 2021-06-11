@@ -20,13 +20,20 @@ struct ItemDetailView: View {
     var body: some View {
         ScrollView {
             VStack(spacing: 20) {
-                Text(item.title ?? "")
-                    .font(.largeTitle.bold())
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .matchedGeometryEffect(id: (item.link?.absoluteString ?? item.title ?? UUID().uuidString) + "-title", in: nspace)
-                Text(item.description ?? "")
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .matchedGeometryEffect(id: (item.link?.absoluteString ?? item.title ?? UUID().uuidString) + "-description", in: nspace)
+                VStack {
+                    Text(item.title ?? "")
+                        .font(.largeTitle.bold())
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .matchedGeometryEffect(id: (item.link?.absoluteString ?? item.title ?? UUID().uuidString) + "-title", in: nspace)
+                    if let date = item.pubDate {
+                        Text(date, style: .date)
+                            .foregroundColor(Color.secondary)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                    }
+                    Text(item.description ?? "")
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .matchedGeometryEffect(id: (item.link?.absoluteString ?? item.title ?? UUID().uuidString) + "-description", in: nspace)
+                }
                 Divider()
                 if !contents.isEmpty {
                     VStack {
@@ -58,8 +65,8 @@ struct ItemDetailView: View {
             }.keyboardShortcut(.cancelAction)
         }
                 .padding()
-                .overlay(Divider(), alignment: .top)
-                .background(Material.thick),
+                .background(Material.thin)
+                .overlay(Divider(), alignment: .top),
             alignment: .bottom
         )
 #else
@@ -117,6 +124,13 @@ struct ItemDetailView: View {
                     let text = doc.body()?.children()
                     withAnimation {
                         do {
+                            if try text.map({ try $0.text() })?.isEmpty ?? true {
+                                if let content = item.content {
+                                    contents = [ContentItem(content: AnyView(Text(content).frame(maxWidth: .infinity, alignment: .leading)))]
+                                }
+                                
+                                return
+                            }
                             contents = try text?
                                 .compactMap({ element -> ContentItem<AnyView>? in
                                     switch element.tagName() {
@@ -125,6 +139,7 @@ struct ItemDetailView: View {
 #if os(macOS)
                                             .textSelection(.enabled)
 #endif
+                                            .font(.body)
                                             .frame(maxWidth: .infinity, alignment: .leading)
                                         
                                         return ContentItem(content: AnyView(text))
@@ -135,8 +150,10 @@ struct ItemDetailView: View {
                                                             .joined(separator: "\n"))
 #if os(macOS)
                                             .textSelection(.enabled)
-#endif
+                                            .font(.body.monospaced())
+#else
                                             .font(.caption.monospaced())
+#endif
                                             .frame(maxWidth: .infinity, alignment: .leading)
                                             .padding()
                                             .background(RoundedRectangle(cornerRadius: 10, style: .continuous)
@@ -146,8 +163,10 @@ struct ItemDetailView: View {
                                         let view = Text(try element.text())
 #if os(macOS)
                                             .textSelection(.enabled)
-#endif
+                                            .font(.body.monospaced())
+#else
                                             .font(.caption.monospaced())
+#endif
                                             .padding()
                                             .background(RoundedRectangle(cornerRadius: 10, style: .continuous)
                                                             .fill(Color("Secondary")))

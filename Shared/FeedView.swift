@@ -35,6 +35,7 @@ struct FeedView: View {
         let item: Moji.Item
         @Binding var selectedItem: Moji.Item?
         var nspace: Namespace.ID
+        @State var date: Date? = nil
         
         var body: some View {
             Button {
@@ -42,7 +43,7 @@ struct FeedView: View {
                     selectedItem = item
                 }
             } label: {
-                VStack {
+                VStack(alignment: .leading) {
                     Text(item.title ?? "")
                         .font(.title.bold())
                         .frame(maxWidth: .infinity, alignment: .leading)
@@ -51,6 +52,10 @@ struct FeedView: View {
                         .foregroundColor(Color.secondary)
                         .lineLimit(2)
                         .matchedGeometryEffect(id: (item.link?.absoluteString ?? item.title ?? UUID().uuidString) + "-description", in: nspace)
+                    if let date = item.pubDate {
+                        Text(date, style: .date)
+                            .foregroundColor(Color("Tertiary"))
+                    }
                 }
                 .padding()
                 .background(RoundedRectangle(cornerRadius: 30, style: .continuous)
