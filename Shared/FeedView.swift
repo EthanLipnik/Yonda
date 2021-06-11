@@ -54,8 +54,12 @@ struct FeedView: View {
                 }
                 .padding()
                 .background(RoundedRectangle(cornerRadius: 30, style: .continuous)
+                            #if !os(macOS)
                                 .fill(Color("Primary"))
                                 .shadow(radius: 20)
+                            #else
+                                .fill(Color("Secondary"))
+                            #endif
                                 .matchedGeometryEffect(id: (item.link?.absoluteString ?? item.title ?? UUID().uuidString) + "-background", in: nspace)
                 )
                 .padding()

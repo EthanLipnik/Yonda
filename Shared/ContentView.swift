@@ -38,6 +38,9 @@ struct ContentView: View {
     @State var selectedIdentfiedItem: IdentifiableItem? = nil
     #endif
     
+    let updateSourcesNotification = NotificationCenter.default
+        .publisher(for: Notification.UpdateSourcesNotification.name)
+    
     @Namespace var nspace
     
     var body: some View {
@@ -96,12 +99,14 @@ struct ContentView: View {
                     .zIndex(0)
                     .transition(.move(edge: .bottom))
             }
-            #endif
+#endif
         }
         .sheet(isPresented: $shouldAddSource) {
             NewSourceView() { url in
                 if let url = url {
-                    addItem(url: url)
+                    async {
+                        await addItem(url: url)
+                    }
                 }
             }
         }
@@ -119,6 +124,11 @@ struct ContentView: View {
 #endif
         .task {
             await updateSources()
+        }
+        .onReceive(updateSourcesNotification) { _ in
+            async {
+                await updateSources(withAnimation: true)
+            }
         }
     }
     
@@ -160,26 +170,24 @@ struct ContentView: View {
         }
     }
     
-    private func addItem(url: URL) {
-        withAnimation {
-            let newItem = Source(context: viewContext)
-            newItem.url = url.absoluteString
+    private func addItem(url: URL) async {
+        let newItem = Source(context: viewContext)
+        newItem.url = url.absoluteString
+        
+        do {
+            let rss = try await Moji.decode(from: URLRequest(url: url))
+            newItem.title = rss.title!
             
-            do {
-                let rss = try Moji.decode(from: Data(contentsOf: url))
-                newItem.title = rss.title!
-                
-                try viewContext.save()
-            } catch {
-                // Replace this implementation with code to handle the error appropriately.
-                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                let nsError = error as NSError
-                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
-            }
-            
-            async {
-                await updateSources(withAnimation: true)
-            }
+            try viewContext.save()
+        } catch {
+            // Replace this implementation with code to handle the error appropriately.
+            // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+            let nsError = error as NSError
+            fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+        }
+        
+        async {
+            await updateSources(withAnimation: true)
         }
     }
     //
@@ -210,6 +218,7 @@ struct ContentView: View {
         @State var icon: URL? = nil
         @State var shouldDelete: Bool = false
         var nspace: Namespace.ID
+        @State var shouldShareSource = false
         
         var body: some View {
             NavigationLink(destination: FeedView(feed: feed, selectedItem: $selectedItem, nspace: nspace), tag: feed, selection: $selectedFeed) {
@@ -251,6 +260,12 @@ struct ContentView: View {
                 } label: {
                     Label(source.isPinned ? "Unpin" : "Pin", systemImage: source.isPinned ? "pin.slash" : "pin")
                 }
+                Button {
+                    shouldShareSource.toggle()
+                } label: {
+                    Label("Share", systemImage: "square.and.arrow.up")
+                }
+
                 Divider()
                 Button(role: .destructive) {
                     shouldDelete.toggle()
@@ -258,6 +273,11 @@ struct ContentView: View {
                     Label("Delete", systemImage: "trash")
                 }
             }
+            #if os(iOS)
+            .sheet(isPresented: $shouldShareSource) {
+                ShareSheet(activityItems: [URL(string: source.url!)!])
+            }
+            #endif
             .alert("Deleting this source will require you to add it again if you want to add it back.", isPresented: $shouldDelete, actions: {
                 Button("Delete", role: .destructive) {
                     viewContext.delete(source)

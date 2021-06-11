@@ -37,11 +37,21 @@ struct ItemDetailView: View {
                 }
             }
             .padding()
+            .padding(.bottom, 70)
         }
 #if os(macOS)
         .frame(minWidth: 400, minHeight: 600)
         .overlay(
             HStack {
+            if let link = item.link {
+                Button {
+                    openURL(link)
+                } label: {
+                    Label("View as webpage", systemImage:"globe")
+                        .font(.headline)
+                        .lineLimit(1)
+                }
+            }
             Spacer()
             Button("Done") {
                 selectedItem = nil

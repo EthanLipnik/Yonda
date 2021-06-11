@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AA5598CD2673E51600911F5B /* ShareSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA5598CC2673E51600911F5B /* ShareSheet.swift */; };
 		AA8EC72E2671742B009D43AD /* Tests_iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8EC72D2671742B009D43AD /* Tests_iOS.swift */; };
 		AA8EC7382671742B009D43AD /* Tests_macOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8EC7372671742B009D43AD /* Tests_macOS.swift */; };
 		AA8EC7392671742B009D43AD /* Yonda.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = AA8EC7142671742A009D43AD /* Yonda.xcdatamodeld */; };
@@ -54,6 +55,8 @@
 
 /* Begin PBXFileReference section */
 		AA54646A2673D3EA00D89BAA /* Sebu */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Sebu; path = ../Sebu; sourceTree = "<group>"; };
+		AA54646B2673D7CD00D89BAA /* Yonda--iOS--Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Yonda--iOS--Info.plist"; sourceTree = "<group>"; };
+		AA5598CC2673E51600911F5B /* ShareSheet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShareSheet.swift; sourceTree = "<group>"; };
 		AA8EC7152671742A009D43AD /* Shared.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Shared.xcdatamodel; sourceTree = "<group>"; };
 		AA8EC7162671742A009D43AD /* YondaApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YondaApp.swift; sourceTree = "<group>"; };
 		AA8EC7172671742A009D43AD /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -116,6 +119,7 @@
 		AA8EC70E2671742A009D43AD = {
 			isa = PBXGroup;
 			children = (
+				AA54646B2673D7CD00D89BAA /* Yonda--iOS--Info.plist */,
 				AAB98EC726730416003F5DCF /* Yonda--macOS--Info.plist */,
 				AA8EC75D26717A5F009D43AD /* Yonda.entitlements */,
 				AA8EC7572671756E009D43AD /* Packages */,
@@ -135,6 +139,7 @@
 				AA8EC76926718614009D43AD /* FeedView.swift */,
 				AAB98EC826739B4B003F5DCF /* ItemDetailView.swift */,
 				AA8EC77126719545009D43AD /* NewSourceView.swift */,
+				AA5598CC2673E51600911F5B /* ShareSheet.swift */,
 				AA8EC7182671742A009D43AD /* Persistence.swift */,
 				AA8EC7192671742B009D43AD /* Assets.xcassets */,
 				AA8EC7142671742A009D43AD /* Yonda.xcdatamodeld */,
@@ -366,6 +371,7 @@
 				AA8EC77226719545009D43AD /* NewSourceView.swift in Sources */,
 				AA8EC73B2671742B009D43AD /* YondaApp.swift in Sources */,
 				AA8EC73D2671742B009D43AD /* ContentView.swift in Sources */,
+				AA5598CD2673E51600911F5B /* ShareSheet.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -536,6 +542,10 @@
 				DEVELOPMENT_TEAM = B6QG723P8Z;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Yonda--iOS--Info.plist";
+				INFOPLIST_KEY_CFBundleExecutable = Yonda;
+				INFOPLIST_KEY_CFBundleName = Yonda;
+				INFOPLIST_KEY_CFBundleVersion = 2;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -566,6 +576,10 @@
 				DEVELOPMENT_TEAM = B6QG723P8Z;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Yonda--iOS--Info.plist";
+				INFOPLIST_KEY_CFBundleExecutable = Yonda;
+				INFOPLIST_KEY_CFBundleName = Yonda;
+				INFOPLIST_KEY_CFBundleVersion = 2;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -605,7 +619,7 @@
 				INFOPLIST_FILE = "Yonda--macOS--Info.plist";
 				INFOPLIST_KEY_CFBundleExecutable = Yonda;
 				INFOPLIST_KEY_CFBundleName = Yonda;
-				INFOPLIST_KEY_CFBundleVersion = 1;
+				INFOPLIST_KEY_CFBundleVersion = 2;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -639,7 +653,7 @@
 				INFOPLIST_FILE = "Yonda--macOS--Info.plist";
 				INFOPLIST_KEY_CFBundleExecutable = Yonda;
 				INFOPLIST_KEY_CFBundleName = Yonda;
-				INFOPLIST_KEY_CFBundleVersion = 1;
+				INFOPLIST_KEY_CFBundleVersion = 2;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
