@@ -23,10 +23,10 @@ struct ItemDetailView: View {
                 Text(item.title ?? "")
                     .font(.largeTitle.bold())
                     .frame(maxWidth: .infinity, alignment: .leading)
-                    .matchedGeometryEffect(id: item.link!.absoluteString + "-title", in: nspace)
+                    .matchedGeometryEffect(id: (item.link?.absoluteString ?? item.title ?? UUID().uuidString) + "-title", in: nspace)
                 Text(item.description ?? "")
                     .frame(maxWidth: .infinity, alignment: .leading)
-                    .matchedGeometryEffect(id: item.link!.absoluteString + "-description", in: nspace)
+                    .matchedGeometryEffect(id: (item.link?.absoluteString ?? item.title ?? UUID().uuidString) + "-description", in: nspace)
                 Divider()
                 if !contents.isEmpty {
                     VStack {
@@ -54,7 +54,7 @@ struct ItemDetailView: View {
         )
 #else
         .background(Color("Background"))
-        .matchedGeometryEffect(id: item.link!.absoluteString + "-background", in: nspace)
+        .matchedGeometryEffect(id: (item.link?.absoluteString ?? item.title ?? UUID().uuidString) + "-background", in: nspace)
         .overlay(
             Button {
             withAnimation {
@@ -69,6 +69,26 @@ struct ItemDetailView: View {
                                 .shadow(radius: 10))
                 .padding(.leading),
             alignment: .bottomLeading
+        )
+        .overlay(
+            Group {
+            if let link = item.link {
+                Button {
+                    openURL(link)
+                } label: {
+                    Label("View as webpage", systemImage:"globe")
+                        .font(.headline)
+                        .lineLimit(1)
+                }
+                .padding()
+                .background(RoundedRectangle(cornerRadius: 30, style: .continuous)
+                                .fill(Material.thin)
+                                .shadow(radius: 10))
+            } else {
+                EmptyView()
+            }
+        },
+            alignment: .bottom
         )
         .overlay(
             GeometryReader { reader in
