@@ -9,7 +9,6 @@ import SwiftUI
 import CoreData
 import Moji
 import Sebu
-import FavIcon
 
 struct ContentView: View {
     @Environment(\.managedObjectContext) private var viewContext
@@ -30,6 +29,14 @@ struct ContentView: View {
     @State var selectedFeed: Moji.RSS?
     @State var selectedItem: Moji.Item? = nil
     @State var shouldAddSource = false
+    
+    #if os(macOS)
+    struct IdentifiableItem: Identifiable, Equatable {
+        var id: UUID { UUID() }
+        var item: Moji.Item
+    }
+    @State var selectedIdentfiedItem: IdentifiableItem? = nil
+    #endif
     
     var body: some View {
         ZStack {
@@ -57,6 +64,9 @@ struct ContentView: View {
                                 }
                             }
                         }
+                    } else if pinnedSources.isEmpty && unpinnedSources.isEmpty {
+                        Text("Add a source")
+                            .font(.headline)
                     } else {
                         ProgressView("Loading...", value: Float(feeds.count) / Float(pinnedSources.count + unpinnedSources.count))
                     }
@@ -78,11 +88,14 @@ struct ContentView: View {
                 }
             }
             
-            //            if let item = selectedItem {
-            //                ItemDetailView(item: item)
-            //                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-            //                    .background(Material.thick)
-            //            }
+            #if !os(macOS)
+            if let item = selectedItem {
+                ItemDetailView(item: item, selectedItem: $selectedItem)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .zIndex(0)
+                    .transition(.slide)
+            }
+            #endif
         }
         .sheet(isPresented: $shouldAddSource) {
             NewSourceView() { url in
@@ -91,6 +104,18 @@ struct ContentView: View {
                 }
             }
         }
+#if os(macOS)
+        .sheet(item: $selectedIdentfiedItem) { item in
+            ItemDetailView(item: item.item, selectedItem: $selectedItem)
+        }
+        .onChange(of: selectedItem) { item in
+            if let item = item {
+                selectedIdentfiedItem = IdentifiableItem(item: item)
+            } else {
+                selectedIdentfiedItem = nil
+            }
+        }
+#endif
         .task {
             await updateSources()
         }
@@ -118,12 +143,14 @@ struct ContentView: View {
                         let rss = try await Moji.decode(from: URLRequest(url: url))
                         NSLog("🟢 Loaded remote for source", source.title ?? rss.title ?? "Unknown title")
                         
-                        try Sebu.save(rss, withName: source.title!, expiration: Calendar.current.date(byAdding: .minute, value: 20, to: Date()))
+                        try Sebu.save(rss, withName: source.title!, expiration: Calendar.current.date(byAdding: .minute, value: 5, to: Date()))
                         
                         newFeeds.append(rss)
                         
-                        source.title = rss.title
-                        try viewContext.save()
+                        if source.title != rss.title {
+                            source.title = rss.title
+                            try viewContext.save()
+                        }
                     }
                 }
             }
@@ -185,7 +212,7 @@ struct ContentView: View {
         var body: some View {
             NavigationLink(destination: FeedView(feed: feed, selectedItem: $selectedItem), tag: feed, selection: $selectedFeed) {
                 Label {
-                    Text(feed.title ?? "Unknown title")
+                    Text(feed.title ?? source.title ?? "Unknown title")
                 } icon: {
                     if let icon = icon {
                         AsyncImage(url: icon) { phase in

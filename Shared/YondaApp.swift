@@ -15,7 +15,11 @@ struct YondaApp: App {
         WindowGroup {
             ContentView()
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
-        }.commands {
+        }
+#if os(macOS)
+        .windowStyle(HiddenTitleBarWindowStyle())
+#endif
+        .commands {
             SidebarCommands()
         }
     }

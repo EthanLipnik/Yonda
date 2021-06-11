@@ -68,6 +68,7 @@
 		AA8EC76926718614009D43AD /* FeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedView.swift; sourceTree = "<group>"; };
 		AA8EC76C267187D1009D43AD /* Sebu */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Sebu; path = ../../../../../../Users/ethan/Desktop/Sebu; sourceTree = "<group>"; };
 		AA8EC77126719545009D43AD /* NewSourceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewSourceView.swift; sourceTree = "<group>"; };
+		AAB98EC726730416003F5DCF /* Yonda--macOS--Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Yonda--macOS--Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,6 +112,7 @@
 		AA8EC70E2671742A009D43AD = {
 			isa = PBXGroup;
 			children = (
+				AAB98EC726730416003F5DCF /* Yonda--macOS--Info.plist */,
 				AA8EC75D26717A5F009D43AD /* Yonda.entitlements */,
 				AA8EC7572671756E009D43AD /* Packages */,
 				AA8EC7132671742A009D43AD /* Shared */,
@@ -593,6 +595,10 @@
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Yonda--macOS--Info.plist";
+				INFOPLIST_KEY_CFBundleExecutable = Yonda;
+				INFOPLIST_KEY_CFBundleName = Yonda;
+				INFOPLIST_KEY_CFBundleVersion = 1;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -623,6 +629,10 @@
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Yonda--macOS--Info.plist";
+				INFOPLIST_KEY_CFBundleExecutable = Yonda;
+				INFOPLIST_KEY_CFBundleName = Yonda;
+				INFOPLIST_KEY_CFBundleVersion = 1;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

@@ -30,6 +30,9 @@ struct FeedView: View {
         .frame(minWidth: 300)
         .background(Color("Background"))
         .navigationTitle(feed.title ?? "")
+        #if !os(macOS)
+        .navigationBarTitleDisplayMode(.inline)
+        #endif
     }
     
     struct ItemView: View {
@@ -46,7 +49,7 @@ struct FeedView: View {
             }
             .padding()
             .background(RoundedRectangle(cornerRadius: 30, style: .continuous)
-                            .fill(Color("Primary"))
+                            .fill(Color.blue)
                             .shadow(radius: 20))
             .padding()
         }
