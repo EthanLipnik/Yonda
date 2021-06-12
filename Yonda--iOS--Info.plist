@@ -15,9 +15,9 @@
 			</array>
 		</dict>
 	</array>
-	<key>LSRequiresIPhoneOS</key>
-	<true/>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
+	<key>LSRequiresIPhoneOS</key>
+	<true/>
 </dict>
 </plist>
