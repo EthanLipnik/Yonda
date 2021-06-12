@@ -39,7 +39,7 @@ struct FeedView: View {
         
         var body: some View {
             Button {
-                withAnimation(.easeInOut) {
+                withAnimation(.spring()) {
                     selectedItem = item
                 }
             } label: {
@@ -50,7 +50,6 @@ struct FeedView: View {
                         .matchedGeometryEffect(id: (item.link?.absoluteString ?? item.title ?? UUID().uuidString) + "-title", in: nspace)
                     Text(item.description ?? "")
                         .foregroundColor(Color.secondary)
-                        .lineLimit(2)
                         .matchedGeometryEffect(id: (item.link?.absoluteString ?? item.title ?? UUID().uuidString) + "-description", in: nspace)
                     if let date = item.pubDate {
                         Text(date, style: .date)

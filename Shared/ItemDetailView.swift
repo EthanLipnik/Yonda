@@ -17,36 +17,10 @@ struct ItemDetailView: View {
     @Environment(\.openURL) var openURL
     var nspace: Namespace.ID
     @State var contents: [ContentItem<AnyView>] = []
+    @State var shouldShowCornerRadius = true
     
     var body: some View {
-        ScrollView {
-            VStack(spacing: 20) {
-                VStack {
-                    Text(item.title ?? "")
-                        .font(.largeTitle.bold())
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .matchedGeometryEffect(id: (item.link?.absoluteString ?? item.title ?? UUID().uuidString) + "-title", in: nspace)
-                    Text(item.description ?? "")
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .matchedGeometryEffect(id: (item.link?.absoluteString ?? item.title ?? UUID().uuidString) + "-description", in: nspace)
-                    if let date = item.pubDate {
-                        Text(date, style: .date)
-                            .foregroundColor(Color.secondary)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                    }
-                }
-                Divider()
-                if !contents.isEmpty {
-                    VStack {
-                        ForEach(contents) { view in
-                            view.content
-                        }
-                    }.transition(.opacity)
-                }
-            }
-            .padding()
-            .padding(.bottom, 70)
-        }
+        content
 #if os(macOS)
         .frame(minWidth: 400, minHeight: 600)
         .overlay(
@@ -71,11 +45,14 @@ struct ItemDetailView: View {
             alignment: .bottom
         )
 #else
-        .background(Color("Background"))
+        .background(Color("Primary"))
+        .clipShape(RoundedRectangle(cornerRadius: shouldShowCornerRadius ? 30 : 0, style: .continuous))
         .matchedGeometryEffect(id: (item.link?.absoluteString ?? item.title ?? UUID().uuidString) + "-background", in: nspace)
+        .ignoresSafeArea()
         .overlay(
             Button {
-            withAnimation {
+            shouldShowCornerRadius = true
+            withAnimation(.spring()) {
                 selectedItem = nil
             }
         } label: {
@@ -114,7 +91,8 @@ struct ItemDetailView: View {
                 .fill(Color("Background"))
                 .frame(height: reader.safeAreaInsets.top)
                 .offset(y: -reader.safeAreaInsets.top)
-        },
+        }
+                .opacity(shouldShowCornerRadius ? 0 : 1),
             alignment: .top
         )
 #endif
@@ -209,6 +187,42 @@ struct ItemDetailView: View {
                 } catch {
                     print("error")
                 }
+            }
+        }
+    }
+    
+    var content: some View {
+        ScrollView {
+            VStack(spacing: 20) {
+                VStack {
+                    Text(item.title ?? "")
+                        .font(.title.bold())
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .matchedGeometryEffect(id: (item.link?.absoluteString ?? item.title ?? UUID().uuidString) + "-title", in: nspace)
+                    Text(item.description ?? "")
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .matchedGeometryEffect(id: (item.link?.absoluteString ?? item.title ?? UUID().uuidString) + "-description", in: nspace)
+                    if let date = item.pubDate {
+                        Text(date, style: .date)
+                            .foregroundColor(Color.secondary)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                    }
+                }
+                Divider()
+                if !contents.isEmpty {
+                    VStack {
+                        ForEach(contents) { view in
+                            view.content
+                        }
+                    }.transition(.opacity)
+                }
+            }
+            .padding()
+            .padding(.vertical, 70)
+        }
+        .onAppear {
+            withAnimation {
+                shouldShowCornerRadius = false
             }
         }
     }
