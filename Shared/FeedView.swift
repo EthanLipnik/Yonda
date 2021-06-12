@@ -54,6 +54,7 @@ struct FeedView: View {
                     if let date = item.pubDate {
                         Text(date, style: .date)
                             .foregroundColor(Color("TertiaryLabel"))
+                            .matchedGeometryEffect(id: (item.link?.absoluteString ?? item.title ?? UUID().uuidString) + "-date", in: nspace)
                     }
                 }
                 .padding()

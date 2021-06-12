@@ -26,7 +26,11 @@ struct ContentView: View {
     private var unpinnedSources: FetchedResults<Source>
     
     @State var feeds: [Moji.RSS] = []
+#if DEBUG
+    @State var shouldShowHome = false
+#else
     @State var shouldShowHome = true
+#endif
     @State var selectedItem: Moji.Item? = nil
     @State var shouldAddSource = false
     

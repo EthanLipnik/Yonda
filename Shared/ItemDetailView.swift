@@ -114,7 +114,7 @@ struct ItemDetailView: View {
                                 .compactMap({ element -> ContentItem<AnyView>? in
                                     switch element.tagName() {
                                     case "p":
-                                        let text = Text(try element.text())
+                                        let text = Text(try element.text() + "\n")
 #if os(macOS)
                                             .textSelection(.enabled)
 #endif
@@ -137,6 +137,7 @@ struct ItemDetailView: View {
                                             .padding()
                                             .background(RoundedRectangle(cornerRadius: 10, style: .continuous)
                                                             .fill(Color("Secondary")))
+                                            .padding(.bottom)
                                         return ContentItem(content: AnyView(view))
                                     case "code":
                                         let view = Text(try element.text())
@@ -149,6 +150,7 @@ struct ItemDetailView: View {
                                             .padding()
                                             .background(RoundedRectangle(cornerRadius: 10, style: .continuous)
                                                             .fill(Color("Secondary")))
+                                            .padding(.bottom)
                                         return ContentItem(content: AnyView(view))
                                     case "a", "h2":
                                         let attr = try element.attr("href")
@@ -175,6 +177,55 @@ struct ItemDetailView: View {
                                                                                 .aspectRatio(16/9, contentMode: .fit)
                                                                                 .frame(maxWidth: .infinity, alignment: .leading)))
 #endif
+                                    case "figure":
+                                        guard let img = element.children().first?.children().first else { return nil }
+                                        let attr = try img.attr("src")
+                                        guard let url = URL(string: attr) else { return nil }
+                                        if url.pathExtension != "gif" {
+                                            return ContentItem(content: AnyView(
+                                                AsyncImage(url: url) { phase in
+                                                switch phase {
+                                                case .empty:
+                                                    RoundedRectangle(cornerRadius: 10, style: .continuous)
+                                                        .fill(Color("Secondary"))
+                                                        .aspectRatio(16/9, contentMode: .fit)
+                                                        .shadow(radius: 10)
+                                                        .onAppear {
+                                                            print(url)
+                                                        }
+                                                case .success(let image):
+                                                    image
+                                                        .resizable()
+                                                        .aspectRatio(contentMode: .fit)
+                                                        .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+                                                        .shadow(radius: 10)
+                                                case .failure:
+                                                    RoundedRectangle(cornerRadius: 10, style: .continuous)
+                                                        .fill(Color.red)
+                                                        .shadow(color: Color.red, radius: 10)
+                                                        .onAppear {
+                                                            print(url)
+                                                        }
+                                                @unknown default:
+                                                    // Since the AsyncImagePhase enum isn't frozen,
+                                                    // we need to add this currently unused fallback
+                                                    // to handle any new cases that might be added
+                                                    // in the future:
+                                                    EmptyView()
+                                                }
+                                            }
+                                            ))
+                                        } else {
+                                            let view = VStack {
+                                                iFrameView(html: nil, url: url)
+                                                    .aspectRatio(contentMode: .fill)
+                                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                                Link(url.absoluteString, destination: url)
+                                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                            }
+                                                .padding(.bottom)
+                                            return ContentItem(content: AnyView(view))
+                                        }
                                     default:
                                         print(try element.html(), element.tagName())
                                         return nil
@@ -200,12 +251,14 @@ struct ItemDetailView: View {
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .matchedGeometryEffect(id: (item.link?.absoluteString ?? item.title ?? UUID().uuidString) + "-title", in: nspace)
                     Text(item.description ?? "")
+                        .foregroundColor(Color.secondary)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .matchedGeometryEffect(id: (item.link?.absoluteString ?? item.title ?? UUID().uuidString) + "-description", in: nspace)
                     if let date = item.pubDate {
                         Text(date, style: .date)
-                            .foregroundColor(Color.secondary)
+                            .foregroundColor(Color("TertiaryLabel"))
                             .frame(maxWidth: .infinity, alignment: .leading)
+                            .matchedGeometryEffect(id: (item.link?.absoluteString ?? item.title ?? UUID().uuidString) + "-date", in: nspace)
                     }
                 }
                 Divider()
