@@ -13,9 +13,9 @@ struct PersistenceController {
     static var preview: PersistenceController = {
         let result = PersistenceController(inMemory: true)
         let viewContext = result.container.viewContext
-        for _ in 0..<10 {
-            let newItem = Source(context: viewContext)
-        }
+        let newItem = Source(context: viewContext)
+        newItem.url = "https://wwdcbysundell.com/feed.rss"
+        newItem.title = "WWDC by Sundell & Friends"
         do {
             try viewContext.save()
         } catch {
@@ -51,5 +51,8 @@ struct PersistenceController {
                 fatalError("Unresolved error \(error), \(error.userInfo)")
             }
         })
+        
+        container.viewContext.automaticallyMergesChangesFromParent = true
+        container.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
     }
 }

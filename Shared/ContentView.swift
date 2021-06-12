@@ -26,7 +26,7 @@ struct ContentView: View {
     private var unpinnedSources: FetchedResults<Source>
     
     @State var feeds: [Moji.RSS] = []
-    @State var selectedFeed: Moji.RSS?
+    @State var shouldShowHome = true
     @State var selectedItem: Moji.Item? = nil
     @State var shouldAddSource = false
     
@@ -52,22 +52,29 @@ struct ContentView: View {
                             Section("Pinned") {
                                 ForEach(pinnedSources) { source in
                                     if let feed = feeds.first(where: { $0.title == source.title }) {
-                                        FeedItem(feed: feed, source: source, updateSources: updateSources(withAnimation:), selectedItem: $selectedItem, selectedFeed: $selectedFeed, nspace: nspace)
+                                        FeedItem(feed: feed, source: source, updateSources: updateSources(withAnimation:), selectedItem: $selectedItem, nspace: nspace)
                                             .environment(\.managedObjectContext, viewContext)
                                     }
+                                }.onDelete { index in
+                                    deleteItems(offsets: index, isPinned: true)
                                 }
                             }
                         }
-                        if !unpinnedSources.isEmpty {
                             Section("Feeds") {
-                                ForEach(unpinnedSources) { source in
-                                    if let feed = feeds.first(where: { $0.title == source.title }) {
-                                        FeedItem(feed: feed, source: source, updateSources: updateSources(withAnimation:), selectedItem: $selectedItem, selectedFeed: $selectedFeed, nspace: nspace)
-                                            .environment(\.managedObjectContext, viewContext)
+                                NavigationLink(destination: HomeView(feeds: feeds, selectedItem: $selectedItem, nspace: nspace), isActive: $shouldShowHome) {
+                                    Label("Home", systemImage: "house.fill")
+                                }
+                                if !unpinnedSources.isEmpty {
+                                    ForEach(unpinnedSources) { source in
+                                        if let feed = feeds.first(where: { $0.title == source.title }) {
+                                            FeedItem(feed: feed, source: source, updateSources: updateSources(withAnimation:), selectedItem: $selectedItem, nspace: nspace)
+                                                .environment(\.managedObjectContext, viewContext)
+                                        }
+                                    }.onDelete { index in
+                                        deleteItems(offsets: index, isPinned: false)
                                     }
                                 }
                             }
-                        }
                     } else if pinnedSources.isEmpty && unpinnedSources.isEmpty {
                         Text("Add a source")
                             .font(.headline)
@@ -84,23 +91,58 @@ struct ContentView: View {
                 .toolbar {
                     ToolbarItem(placement: .primaryAction) {
                         Button {
+                            #if os(macOS)
                             shouldAddSource = true
+                            #else
+                            withAnimation(.spring()) {
+                                shouldAddSource = true
+                            }
+                            #endif
                         } label: {
                             Label("Add source", systemImage: "plus")
                         }
                     }
                 }
             }
+            .disabled(shouldAddSource)
+            .opacity(shouldAddSource ? 0.7 : 1)
+            .background(Group {
+                if shouldAddSource {
+                    Rectangle()
+                        .fill(Color.black)
+                        .edgesIgnoringSafeArea(.all)
+                } else {
+                    EmptyView()
+                }
+            })
+#if !os(macOS)
             
-            #if !os(macOS)
             if let item = selectedItem {
                 ItemDetailView(item: item, selectedItem: $selectedItem, nspace: nspace)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    .zIndex(0)
+                    .zIndex(1)
                     .transition(.move(edge: .bottom))
+            }
+            if shouldAddSource {
+                NewSourceView() { url in
+                    withAnimation(.spring()) {
+                        shouldAddSource = false
+                    }
+                    
+                    if let url = url {
+                        async {
+                            await addItem(url: url)
+                        }
+                    }
+                }
+                .environment(\.managedObjectContext, viewContext)
+                .padding(.horizontal)
+                .zIndex(1)
+                .transition(.move(edge: .bottom))
             }
 #endif
         }
+#if os(macOS)
         .sheet(isPresented: $shouldAddSource) {
             NewSourceView() { url in
                 if let url = url {
@@ -110,7 +152,6 @@ struct ContentView: View {
                 }
             }
         }
-#if os(macOS)
         .sheet(item: $selectedIdentfiedItem) { item in
             ItemDetailView(item: item.item, selectedItem: $selectedItem, nspace: nspace)
         }
@@ -123,6 +164,11 @@ struct ContentView: View {
         }
 #endif
         .task {
+            for source in pinnedSources.map({ $0 }) + unpinnedSources.map({ $0 }) {
+                if let feed: Moji.RSS = try? Sebu.get(withName: source.title!) {
+                    feeds.append(feed)
+                }
+            }
             await updateSources()
         }
         .onReceive(updateSourcesNotification) { _ in
@@ -143,30 +189,23 @@ struct ContentView: View {
                 }
             }
         }
-        do {
-            for source in pinnedSources.map({ $0 }) + unpinnedSources.map({ $0 }) {
-                if let urlStr = source.url, let url = URL(string: urlStr) {
-                    if let cache: Moji.RSS = try? Sebu.get(withName: source.title!) {
-                        
-                        NSLog("🔵 Got cache for source", source.title ?? "Unknown title")
-                        
-                        newFeeds.append(cache)
-                    } else {
-                        let rss = try await Moji.decode(from: URLRequest(url: url))
-                        NSLog("🟢 Loaded remote for source", source.title ?? rss.title ?? "Unknown title")
-                        
-                        try Sebu.save(rss, withName: source.title!, expiration: Calendar.current.date(byAdding: .minute, value: 5, to: Date()))
-                        
-                        newFeeds.append(rss)
-                        
-                        if source.title != rss.title {
-                            source.title = rss.title
-                        }
+        for source in pinnedSources.map({ $0 }) + unpinnedSources.map({ $0 }) {
+            if let urlStr = source.url, let url = URL(string: urlStr) {
+                do {
+                    let rss = try await Moji.decode(from: URLRequest(url: url))
+                    NSLog("🟢 Loaded remote for source", source.title ?? rss.title ?? "Unknown title")
+                    
+                    try Sebu.save(rss, withName: source.title!, expiration: Calendar.current.date(byAdding: .minute, value: 5, to: Date()))
+                    
+                    newFeeds.append(rss)
+                    
+                    if source.title != rss.title {
+                        source.title = rss.title
                     }
+                } catch {
+                    NSLog("🔴 Failed to get sources \(error)")
                 }
             }
-        } catch {
-            NSLog("🔴 Failed to get sources \(error)")
         }
     }
     
@@ -190,28 +229,31 @@ struct ContentView: View {
             await updateSources(withAnimation: true)
         }
     }
-    //
-    //    private func deleteItems(offsets: IndexSet) {
-    //        withAnimation {
-    //            offsets.map { feeds[$0] }.forEach(viewContext.delete)
-    //
-    //            do {
-    //                try viewContext.save()
-    //            } catch {
-    //                // Replace this implementation with code to handle the error appropriately.
-    //                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-    //                let nsError = error as NSError
-    //                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
-    //            }
-    //        }
-    //    }
+    
+    private func deleteItems(offsets: IndexSet, isPinned: Bool) {
+        withAnimation {
+            let sources = offsets.map { isPinned ? pinnedSources[$0] : unpinnedSources[$0] }
+            sources.forEach { source in
+                viewContext.delete(source)
+                try? Sebu.clear(source.title!)
+            }
+
+            do {
+                try viewContext.save()
+            } catch {
+                // Replace this implementation with code to handle the error appropriately.
+                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+                let nsError = error as NSError
+                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+            }
+        }
+    }
     
     struct FeedItem: View {
         let feed: Moji.RSS
         let source: Source
         let updateSources: (_ withAnimation: Bool) async -> Void
         @Binding var selectedItem: Moji.Item?
-        @Binding var selectedFeed: Moji.RSS?
         
         @Environment(\.managedObjectContext) private var viewContext
         
@@ -221,7 +263,7 @@ struct ContentView: View {
         @State var shouldShareSource = false
         
         var body: some View {
-            NavigationLink(destination: FeedView(feed: feed, selectedItem: $selectedItem, nspace: nspace), tag: feed, selection: $selectedFeed) {
+            NavigationLink(destination: FeedView(feed: feed, selectedItem: $selectedItem, nspace: nspace)) {
                 Label {
                     Text(feed.title ?? source.title ?? "Unknown title")
                 } icon: {
@@ -265,7 +307,7 @@ struct ContentView: View {
                 } label: {
                     Label("Share", systemImage: "square.and.arrow.up")
                 }
-
+                
                 Divider()
                 Button(role: .destructive) {
                     shouldDelete.toggle()
@@ -273,16 +315,14 @@ struct ContentView: View {
                     Label("Delete", systemImage: "trash")
                 }
             }
-            #if os(iOS)
-            .sheet(isPresented: $shouldShareSource) {
-                ShareSheet(activityItems: [URL(string: source.url!)!])
-            }
-            #endif
-            .alert("Deleting this source will require you to add it again if you want to add it back.", isPresented: $shouldDelete, actions: {
+            .confirmationDialog(
+                "Are you sure you want to delete \(source.title!)?",
+                isPresented: $shouldDelete
+            ) {
                 Button("Delete", role: .destructive) {
                     viewContext.delete(source)
                     
-                    try? Sebu.clear(source.title!)
+                    try? Sebu.clear(source.url!)
                     do {
                         try viewContext.save()
                         await updateSources(true)
@@ -290,10 +330,14 @@ struct ContentView: View {
                         print(error)
                     }
                 }
-                Button("Cancel", role: .cancel) {
-                    shouldDelete.toggle()
-                }
-            })
+            } message: {
+                Text("Deleting this source will require you to add it again if you want to add it back.")
+            }
+#if os(iOS)
+            .sheet(isPresented: $shouldShareSource) {
+                ShareSheet(activityItems: [URL(string: source.url!)!])
+            }
+            #endif
             .task {
                 do {
                     self.icon = try await feed.getFavicon()

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AA14D5252674345A0090878A /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA14D5242674345A0090878A /* HomeView.swift */; };
+		AA14D5262674345A0090878A /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA14D5242674345A0090878A /* HomeView.swift */; };
 		AA5598CD2673E51600911F5B /* ShareSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA5598CC2673E51600911F5B /* ShareSheet.swift */; };
 		AA8EC72E2671742B009D43AD /* Tests_iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8EC72D2671742B009D43AD /* Tests_iOS.swift */; };
 		AA8EC7382671742B009D43AD /* Tests_macOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8EC7372671742B009D43AD /* Tests_macOS.swift */; };
@@ -54,6 +56,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		AA14D5242674345A0090878A /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		AA54646A2673D3EA00D89BAA /* Sebu */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Sebu; path = ../Sebu; sourceTree = "<group>"; };
 		AA54646B2673D7CD00D89BAA /* Yonda--iOS--Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Yonda--iOS--Info.plist"; sourceTree = "<group>"; };
 		AA5598CC2673E51600911F5B /* ShareSheet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShareSheet.swift; sourceTree = "<group>"; };
@@ -136,6 +139,7 @@
 			children = (
 				AA8EC7162671742A009D43AD /* YondaApp.swift */,
 				AA8EC7172671742A009D43AD /* ContentView.swift */,
+				AA14D5242674345A0090878A /* HomeView.swift */,
 				AA8EC76926718614009D43AD /* FeedView.swift */,
 				AAB98EC826739B4B003F5DCF /* ItemDetailView.swift */,
 				AA8EC77126719545009D43AD /* NewSourceView.swift */,
@@ -364,6 +368,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AA14D5252674345A0090878A /* HomeView.swift in Sources */,
 				AA8EC76A26718614009D43AD /* FeedView.swift in Sources */,
 				AA8EC7392671742B009D43AD /* Yonda.xcdatamodeld in Sources */,
 				AA8EC73F2671742B009D43AD /* Persistence.swift in Sources */,
@@ -384,6 +389,7 @@
 				AA8EC7402671742B009D43AD /* Persistence.swift in Sources */,
 				AAB98ECA26739B4B003F5DCF /* ItemDetailView.swift in Sources */,
 				AA8EC77326719545009D43AD /* NewSourceView.swift in Sources */,
+				AA14D5262674345A0090878A /* HomeView.swift in Sources */,
 				AA8EC73C2671742B009D43AD /* YondaApp.swift in Sources */,
 				AA8EC73E2671742B009D43AD /* ContentView.swift in Sources */,
 			);
@@ -545,7 +551,7 @@
 				INFOPLIST_FILE = "Yonda--iOS--Info.plist";
 				INFOPLIST_KEY_CFBundleExecutable = Yonda;
 				INFOPLIST_KEY_CFBundleName = Yonda;
-				INFOPLIST_KEY_CFBundleVersion = 2;
+				INFOPLIST_KEY_CFBundleVersion = 3;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -579,7 +585,7 @@
 				INFOPLIST_FILE = "Yonda--iOS--Info.plist";
 				INFOPLIST_KEY_CFBundleExecutable = Yonda;
 				INFOPLIST_KEY_CFBundleName = Yonda;
-				INFOPLIST_KEY_CFBundleVersion = 2;
+				INFOPLIST_KEY_CFBundleVersion = 3;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -619,7 +625,7 @@
 				INFOPLIST_FILE = "Yonda--macOS--Info.plist";
 				INFOPLIST_KEY_CFBundleExecutable = Yonda;
 				INFOPLIST_KEY_CFBundleName = Yonda;
-				INFOPLIST_KEY_CFBundleVersion = 2;
+				INFOPLIST_KEY_CFBundleVersion = 3;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -653,7 +659,7 @@
 				INFOPLIST_FILE = "Yonda--macOS--Info.plist";
 				INFOPLIST_KEY_CFBundleExecutable = Yonda;
 				INFOPLIST_KEY_CFBundleName = Yonda;
-				INFOPLIST_KEY_CFBundleVersion = 2;
+				INFOPLIST_KEY_CFBundleVersion = 3;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

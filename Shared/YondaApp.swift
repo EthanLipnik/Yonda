@@ -54,3 +54,15 @@ struct YondaApp: App {
 extension Notification {
     static let UpdateSourcesNotification = Notification(name: Notification.Name(rawValue: "UpdateSourcesNotification"))
 }
+
+extension URL {
+    var rootDomain: String? {
+        guard let hostName = self.host else { return nil }
+        let components = hostName.components(separatedBy: ".")
+        if components.count > 2 {
+            return components.suffix(2).joined(separator: ".")
+        } else {
+            return hostName
+        }
+    }
+}

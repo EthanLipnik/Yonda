@@ -8,6 +8,7 @@
 import SwiftUI
 import Moji
 import SwiftSoup
+import WebView
 
 struct ItemDetailView: View {
     let item: Moji.Item
@@ -25,14 +26,14 @@ struct ItemDetailView: View {
                         .font(.largeTitle.bold())
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .matchedGeometryEffect(id: (item.link?.absoluteString ?? item.title ?? UUID().uuidString) + "-title", in: nspace)
+                    Text(item.description ?? "")
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .matchedGeometryEffect(id: (item.link?.absoluteString ?? item.title ?? UUID().uuidString) + "-description", in: nspace)
                     if let date = item.pubDate {
                         Text(date, style: .date)
                             .foregroundColor(Color.secondary)
                             .frame(maxWidth: .infinity, alignment: .leading)
                     }
-                    Text(item.description ?? "")
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .matchedGeometryEffect(id: (item.link?.absoluteString ?? item.title ?? UUID().uuidString) + "-description", in: nspace)
                 }
                 Divider()
                 if !contents.isEmpty {
@@ -171,10 +172,33 @@ struct ItemDetailView: View {
                                             .background(RoundedRectangle(cornerRadius: 10, style: .continuous)
                                                             .fill(Color("Secondary")))
                                         return ContentItem(content: AnyView(view))
-                                    case "a":
-                                        print(try element.text())
-                                        return nil
+                                    case "a", "h2":
+                                        let attr = try element.attr("href")
+                                        if let url = URL(string: attr) {
+                                            return ContentItem(content: AnyView(Button(try element.text(), action: {
+                                                openURL(url)
+                                            })))
+                                        } else {
+                                            return ContentItem(content: AnyView(Text(try element.text())
+                                                                                    .font(.title2.bold())
+                                                                                    .padding(.top)
+                                                                                    .frame(maxWidth: .infinity, alignment: .leading)))
+                                        }
+                                    case "iframe", "div":
+#if os(macOS)
+                                        let view = HStack {
+                                            iFrameView(html: try? element.html(), url: URL(string: (try? element.select("iframe").first?.attr("src")) ?? ""))
+                                                .frame(width: 300, height: 168.75, alignment: .leading)
+                                            Spacer()
+                                        }
+                                        return ContentItem(content: AnyView(view))
+#else
+                                        return ContentItem(content: AnyView(iFrameView(html: try? element.html(), url: URL(string: (try? element.select("iframe").first?.attr("src")) ?? ""))
+                                                                                .aspectRatio(16/9, contentMode: .fit)
+                                                                                .frame(maxWidth: .infinity, alignment: .leading)))
+#endif
                                     default:
+                                        print(try element.html(), element.tagName())
                                         return nil
                                     }
                                 }) ?? []
@@ -192,6 +216,28 @@ struct ItemDetailView: View {
     struct ContentItem<Content: View>: Identifiable {
         let content: Content
         var id: UUID { UUID() }
+    }
+    
+    struct iFrameView: View {
+        var html: String? = nil
+        var url: URL? = nil
+        @StateObject var webViewStore = WebViewStore()
+        
+        var body: some View {
+            WebView(webView: webViewStore.webView)
+                .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+                .shadow(radius: 10)
+                .onAppear {
+                    if let url = url {
+                        webViewStore.webView.load(URLRequest(url: url))
+                    } else if let html = html {
+                        webViewStore.webView.loadHTMLString(html, baseURL: nil)
+                    }
+#if !os(macOS)
+                    webViewStore.webView.scrollView.isScrollEnabled = false
+#endif
+                }
+        }
     }
 }
 

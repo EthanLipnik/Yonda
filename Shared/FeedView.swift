@@ -17,7 +17,7 @@ struct FeedView: View {
     var body: some View {
         ScrollView {
             LazyVGrid(columns: [.init(.adaptive(minimum: 300))], spacing: 0) {
-                ForEach(feed.items ?? [], id: \.title) { item in
+                ForEach(feed.items, id: \.title) { item in
                     ItemView(item: item, selectedItem: $selectedItem, nspace: nspace)
                         .id((item.title ?? "") + (item.description ?? "") + "\(item.hashValue)")
                 }
@@ -54,7 +54,7 @@ struct FeedView: View {
                         .matchedGeometryEffect(id: (item.link?.absoluteString ?? item.title ?? UUID().uuidString) + "-description", in: nspace)
                     if let date = item.pubDate {
                         Text(date, style: .date)
-                            .foregroundColor(Color("Tertiary"))
+                            .foregroundColor(Color("TertiaryLabel"))
                     }
                 }
                 .padding()
